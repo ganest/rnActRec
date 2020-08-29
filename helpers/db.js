@@ -20,8 +20,8 @@ export const init = () => {
   return promise;
 };
 
-export const insertEvent = (eventData) => {
-  const promise = new Promise((resolve, reject) => {
+export const insertEvent = (db, eventData) => {
+  const promise = new Promise((resolve, reject) => {    
     db.transaction((tx) => {
       tx.executeSql(
         `INSERT INTO bg_event (event_data) VALUES (?);`,
@@ -42,7 +42,7 @@ export const fetchLoggedEvents = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM bg_event',
+        'SELECT * FROM bg_event ORDER BY id DESC',
         [],
         (_, result) => {
           resolve(result);

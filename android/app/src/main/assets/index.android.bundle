@@ -1340,12 +1340,14 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
 
   var _app = _$$_REQUIRE(_dependencyMap[5], "./app.json");
 
-  var _db = _$$_REQUIRE(_dependencyMap[6], "./helpers/db");
+  var _reactNativeSqliteStorage = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6], "react-native-sqlite-storage"));
 
-  var _log = _$$_REQUIRE(_dependencyMap[7], "./helpers/log");
+  var _db = _$$_REQUIRE(_dependencyMap[7], "./helpers/db");
+
+  var _log = _$$_REQUIRE(_dependencyMap[8], "./helpers/log");
 
   var G4MActivityRecognition = function G4MActivityRecognition(taskData) {
-    var now, dbResult;
+    var now, db, dbResult;
     return _regenerator.default.async(function G4MActivityRecognition$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -1355,34 +1357,31 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
             console.log("taskData! " + JSON.stringify(taskData));
 
             if (!(taskData && taskData.label)) {
-              _context.next = 15;
+              _context.next = 14;
               break;
             }
 
             _context.prev = 4;
-            _context.next = 7;
-            return _regenerator.default.awrap((0, _db.init)());
+            db = _reactNativeSqliteStorage.default.openDatabase('logs.db');
+            _context.next = 8;
+            return _regenerator.default.awrap((0, _db.insertEvent)(db, taskData.label + ", " + taskData.confidence + ", " + now));
 
-          case 7:
-            _context.next = 9;
-            return _regenerator.default.awrap((0, _db.insertEvent)(taskData.label + ", " + taskData.confidence + ", " + now));
-
-          case 9:
+          case 8:
             dbResult = _context.sent;
-            _context.next = 15;
+            _context.next = 14;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](4);
             console.log(_context.t0);
 
-          case 15:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[4, 12]], Promise);
+    }, null, null, [[4, 11]], Promise);
   };
 
   _c = G4MActivityRecognition;
@@ -1398,7 +1397,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _c;
 
   $RefreshReg$(_c, "G4MActivityRecognition");
-},0,[1,2,4,58,473,506,502,505],"index.js");
+},0,[1,2,4,58,473,506,503,502,505],"index.js");
 __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -101122,7 +101121,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
 
   exports.init = init;
 
-  var insertEvent = function insertEvent(eventData) {
+  var insertEvent = function insertEvent(db, eventData) {
     var promise = new Promise(function (resolve, reject) {
       db.transaction(function (tx) {
         tx.executeSql("INSERT INTO bg_event (event_data) VALUES (?);", [eventData], function (_, result) {
@@ -101140,7 +101139,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var fetchLoggedEvents = function fetchLoggedEvents() {
     var promise = new Promise(function (resolve, reject) {
       db.transaction(function (tx) {
-        tx.executeSql('SELECT * FROM bg_event', [], function (_, result) {
+        tx.executeSql('SELECT * FROM bg_event ORDER BY id DESC', [], function (_, result) {
           resolve(result);
         }, function (_, err) {
           reject(err);

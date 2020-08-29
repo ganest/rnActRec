@@ -3,7 +3,9 @@ import React from 'react';
 import App from './App';
 import {name as appName} from './app.json';
 
-import {init, insertEvent} from './helpers/db';
+import SQLite from 'react-native-sqlite-storage';
+
+import { insertEvent} from './helpers/db';
 
 import {remoteLog} from './helpers/log';
 
@@ -14,9 +16,9 @@ const G4MActivityRecognition = async (taskData) => {
 
   if (taskData && taskData.label)
     // TODO: I have to check the undefined issue...    
-    try {
-      await init();    
-      const dbResult = await insertEvent(
+    try { 
+      const db = SQLite.openDatabase('logs.db');
+      const dbResult = await insertEvent(db,
         `${taskData.label}, ${taskData.confidence}, ${now}`,
       );
     } catch (err) {
