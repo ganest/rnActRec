@@ -64,21 +64,21 @@ public class ActivityRecognitionModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void startARTracking() {
-        Log.v(TAG, "G4F: startARTracking(): in startAR");
-        mBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
-                    int type = intent.getIntExtra("type", -1);
-                    int confidence = intent.getIntExtra("confidence", 0);
-                    handleUserActivity(context, type, confidence);
-                }
-            }
-        };
-
-        detectedValue = 0;
-        LocalBroadcastManager.getInstance(this.mReactContext).registerReceiver(mBroadcastReceiver,
-                new IntentFilter(Constants.BROADCAST_DETECTED_ACTIVITY));
+//        Log.v(TAG, "G4F: startARTracking(): in startAR");
+//        mBroadcastReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
+//                    int type = intent.getIntExtra("type", -1);
+//                    int confidence = intent.getIntExtra("confidence", 0);
+//                    handleUserActivity(context, type, confidence);
+//                }
+//            }
+//        };
+//
+//        detectedValue = 0;
+//        LocalBroadcastManager.getInstance(this.mReactContext).registerReceiver(mBroadcastReceiver,
+//                new IntentFilter(Constants.BROADCAST_DETECTED_ACTIVITY));
 
         Intent mIntent = new Intent(this.mReactContext, ActivityDetectionService.class);
         this.mReactContext.startService(mIntent);

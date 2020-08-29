@@ -102,7 +102,7 @@ export default function App() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.buttonStyle} onPress={startTracking}>
           <Text style={styles.buttonText}>
-            {isTracking ? 'Stop tracking' : 'Start tracking'}
+            {isTracking ? 'Stop tracking1' : 'Start tracking'}
           </Text>
         </TouchableOpacity>
 

@@ -99080,7 +99080,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         lineNumber: 104,
         columnNumber: 11
       }
-    }, isTracking ? 'Stop tracking' : 'Start tracking')), _react.default.createElement(_reactNative.TouchableOpacity, {
+    }, isTracking ? 'Stop tracking1' : 'Start tracking')), _react.default.createElement(_reactNative.TouchableOpacity, {
       style: styles.buttonStyle,
       onPress: loadLogs,
       __self: this,
